@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -10,7 +11,7 @@ from fastapi.staticfiles import StaticFiles
 from . import db
 from .config import load_settings
 from .routes import router
-from .scheduler import build_scheduler
+from .scheduler import archive_loop, probe_loop
 
 logging.basicConfig(
     level=logging.INFO,
@@ -29,14 +30,16 @@ async def lifespan(app: FastAPI):
              settings.probe_interval_sec, settings.retention_days, settings.db_path)
 
     app.state.settings = settings
-    scheduler = build_scheduler(settings)
-    scheduler.start()
-    log.info("scheduler started")
+    probe_task = asyncio.create_task(probe_loop(settings), name="probe_loop")
+    archive_task = asyncio.create_task(archive_loop(settings), name="archive_loop")
+    log.info("background tasks started")
     try:
         yield
     finally:
-        scheduler.shutdown(wait=False)
-        log.info("scheduler stopped")
+        for t in (probe_task, archive_task):
+            t.cancel()
+        await asyncio.gather(probe_task, archive_task, return_exceptions=True)
+        log.info("background tasks stopped")
 
 
 app = FastAPI(title="Home Internet Tester", lifespan=lifespan)

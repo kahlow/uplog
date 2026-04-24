@@ -6,7 +6,6 @@ WORKDIR /app
 RUN pip install --no-cache-dir \
     "fastapi>=0.115" \
     "uvicorn[standard]>=0.32" \
-    "apscheduler>=3.10" \
     "icmplib>=3.0" \
     "jinja2>=3.1"
 

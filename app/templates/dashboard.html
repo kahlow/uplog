@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Internet Status</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Home Internet Status</h1>
+    <div class="meta">
+      <span>tz: {{ tz }}</span>
+      <span>interval: {{ probe_interval_sec }}s</span>
+      <span id="last-poll">last poll: —</span>
+    </div>
+  </header>
+
+  <section class="cards" id="cards">
+    {% for t in targets %}
+    <div class="card" data-target="{{ t.name }}">
+      <div class="card-name">{{ t.name | upper }}</div>
+      <div class="card-addr">{{ t.address }}</div>
+      <div class="card-dot dot-unknown"></div>
+      <div class="card-latency">— ms</div>
+      <div class="card-method">—</div>
+    </div>
+    {% endfor %}
+    <div class="card summary">
+      <div class="summary-row"><span>Up for:</span> <strong id="up-for">—</strong></div>
+      <div class="summary-row"><span>24h uptime:</span> <strong id="up-24">—</strong></div>
+      <div class="summary-row"><span>7d  uptime:</span> <strong id="up-7d">—</strong></div>
+    </div>
+  </section>
+
+  <section class="chart-block">
+    <div class="block-header">
+      <h2>Latency (last <span id="hist-hours">24</span>h)</h2>
+      <select id="hist-range">
+        <option value="1">1h</option>
+        <option value="6">6h</option>
+        <option value="24" selected>24h</option>
+        <option value="72">3d</option>
+        <option value="168">7d</option>
+      </select>
+    </div>
+    <canvas id="latency-chart"></canvas>
+  </section>
+
+  <section class="outages-block">
+    <div class="block-header">
+      <h2>Recent outages (last 7d)</h2>
+      <div class="actions">
+        <a href="/api/export.csv?days=7">Download CSV</a>
+        <a href="/api/export.json?days=7">Download JSON</a>
+      </div>
+    </div>
+    <table id="outages-table">
+      <thead>
+        <tr><th>Start</th><th>End</th><th>Duration</th><th>Class</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <p id="no-outages" class="empty" hidden>No outages in the last 7 days. </p>
+  </section>
+
+  <section class="heatmap-block">
+    <h2>Outage heatmap (last 7d, local time)</h2>
+    <div id="heatmap"></div>
+  </section>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

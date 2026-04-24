@@ -1,0 +1,16 @@
+[project]
+name = "internet-tester"
+version = "0.1.0"
+description = "Home internet uptime monitor with dashboard, runs on a Raspberry Pi"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "apscheduler>=3.10",
+    "icmplib>=3.0",
+    "jinja2>=3.1",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

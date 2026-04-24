@@ -1,0 +1,217 @@
+:root {
+  --bg: #0f1419;
+  --panel: #161b22;
+  --border: #2a313c;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --green: #3fb950;
+  --red: #f85149;
+  --amber: #d29922;
+  --accent: #58a6ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 1rem 1.5rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.meta {
+  display: flex;
+  gap: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+h2 {
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.card-name {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  font-size: 0.9rem;
+}
+
+.card-addr {
+  color: var(--muted);
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin: 0.25rem 0 0.5rem;
+  box-shadow: 0 0 18px currentColor;
+}
+
+.dot-up    { background: var(--green); color: var(--green); }
+.dot-down  { background: var(--red);   color: var(--red); }
+.dot-unknown { background: var(--muted); color: var(--muted); }
+
+.card-latency {
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.card-method {
+  color: var(--muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.25rem;
+}
+
+.card.summary {
+  align-items: stretch;
+  text-align: left;
+  justify-content: center;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.2rem 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-row span {
+  color: var(--muted);
+}
+
+.chart-block, .outages-block, .heatmap-block {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.block-header h2 { margin: 0; }
+
+.block-header select, .block-header a {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+
+.block-header a:hover { color: var(--accent); }
+
+#latency-chart { width: 100% !important; height: 280px !important; }
+
+#outages-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+
+#outages-table th, #outages-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+#outages-table th {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cls-isp     { color: var(--amber); }
+.cls-local   { color: var(--red); }
+.cls-partial { color: var(--accent); }
+
+.empty { color: var(--muted); }
+
+#heatmap {
+  display: grid;
+  grid-template-columns: 40px repeat(24, 1fr);
+  gap: 2px;
+  font-size: 0.7rem;
+}
+
+.heatmap-label {
+  color: var(--muted);
+  text-align: right;
+  padding-right: 0.5rem;
+  align-self: center;
+}
+
+.heatmap-cell {
+  aspect-ratio: 1;
+  background: var(--bg);
+  border-radius: 2px;
+  position: relative;
+}
+
+.heatmap-cell[title] { cursor: help; }
+
+.heatmap-header {
+  color: var(--muted);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}

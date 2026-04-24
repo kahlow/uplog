@@ -1,0 +1,21 @@
+services:
+  internet-tester:
+    build: .
+    container_name: internet-tester
+    restart: unless-stopped
+    # Host networking so:
+    # 1. Dashboard is reachable at http://<pi-ip>:8000 with no port mapping
+    # 2. The container's default route IS the real LAN gateway, so router probing works
+    network_mode: host
+    cap_add:
+      - NET_RAW
+    volumes:
+      - ./data:/data
+    environment:
+      DATA_DIR: /data
+      PROBE_INTERVAL_SEC: ${PROBE_INTERVAL_SEC:-30}
+      PROBE_TIMEOUT_SEC: ${PROBE_TIMEOUT_SEC:-2}
+      RETENTION_DAYS: ${RETENTION_DAYS:-7}
+      TZ: ${TZ:-UTC}
+      TARGETS: ${TARGETS:-}
+      GATEWAY_IP: ${GATEWAY_IP:-}

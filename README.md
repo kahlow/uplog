@@ -27,6 +27,8 @@ docker compose up --build
 # dashboard at http://localhost:8000
 ```
 
+**Deploying on a Raspberry Pi 4B with an external SSD:** see [docs/raspberry-pi-setup.md](docs/raspberry-pi-setup.md). SSD-boot is strongly recommended — this app writes to SQLite every 30s forever, which wears out SD cards.
+
 ## How it talks to your network
 
 - `network_mode: host` — the container shares the Pi's network stack. The dashboard appears on `<pi-ip>:8000` directly, and the container's default route *is* your real LAN gateway, so router probing works without configuring an IP.
